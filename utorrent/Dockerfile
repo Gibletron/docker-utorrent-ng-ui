@@ -27,6 +27,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
 ADD entrypoint.sh /utorrent/entrypoint.sh
 ADD utserver.conf /utorrent/utserver.conf
+ADD webui.zip /utorrent/webui.zip
+
+RUN chmod 755 /utorrent/webui.zip
 
 RUN chown utorrent:utorrent /utorrent/entrypoint.sh && \
     chmod 755 /utorrent/entrypoint.sh
