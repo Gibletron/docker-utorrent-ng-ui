@@ -1,5 +1,5 @@
 FROM ubuntu:trusty
-MAINTAINER Boris Gorbylev "ekho@ekho.name"
+MAINTAINER Giblet
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
