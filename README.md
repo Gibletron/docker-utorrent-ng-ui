@@ -16,7 +16,7 @@ You might need to adapt it to your specific config
 version: '3'
 services:
   utorrent:
-    image: ekho/utorrent:latest
+    image: gibletron/utorrent-ng-ui:latest
     container_name: utorrent
     volumes:
       - /path/to/data/dir:/utorrent/data
@@ -38,7 +38,5 @@ volumes:
   utorrent-settings:
 ```
 
-With the  AUTOJOIN variable, this script will ensure, your local clients never see the server selection, and instead will be connected to your local SyncLounge server every time. 
-Only works, if SYNCLOUNGE_DOMAIN is accessible through https.
 
-You can find the dockerhub page right here: https://hub.docker.com/r/gibletron/synclounge-auto/
+You can find the dockerhub page right here: https://hub.docker.com/r/gibletron/utorrent-ng-ui
