@@ -13,18 +13,29 @@ You might need to adapt it to your specific config
 
 
 ```yml
-web:
-  build: .
-  container_name: plex_email
-  ports:
-    - "8383:80"
-  expose:
-    - "8383"
-    - "80"
-  restart: always
-  volumes:
-    - /opt/data/plexemail:/config
-    - /opt/data/plex/config:/plex
+version: '3'
+services:
+  utorrent:
+    image: ekho/utorrent:latest
+    container_name: utorrent
+    volumes:
+      - /path/to/data/dir:/utorrent/data
+      - utorrent-settings:/utorrent/settings
+      - /path/to/utserver.conf:/utorrent/utserver.conf
+    environment:
+      HOST_UID: 1002
+      HOST_GID: 1002
+    ports:
+      - 8080:8080
+      - 6881:6881
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  utorrent-settings:
 ```
 
 With the  AUTOJOIN variable, this script will ensure, your local clients never see the server selection, and instead will be connected to your local SyncLounge server every time. 
