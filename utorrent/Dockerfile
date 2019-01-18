@@ -14,6 +14,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     locale && \
     curl -SL http://download.ap.bittorrent.com/track/beta/endpoint/utserver/os/linux-x64-ubuntu-13-04 | \
     tar vxz --strip-components 1 -C /utorrent && \
+    cd /utorrent/ && \
+    URL=$( curl -s "https://api.github.com/repos/psychowood/ng-torrent-ui/releases/latest" | jq -r '.assets[] | select(.name=="webui.zip") | .browser_download_url' ) && \
+    curl -LO "$URL" && \
     apt-get purge -y curl && \
     apt-get autoremove -y && \
     apt-get clean -y && \
@@ -23,10 +26,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     mkdir /utorrent/data && \
     touch /utorrent/utserver.log && \
     ln -sf /dev/stdout /utorrent/utserver.log && \
-    chown -R utorrent:utorrent /utorrent && \
-    cd /utorrent/ && \
-    URL=$( curl -s "https://api.github.com/repos/psychowood/ng-torrent-ui/releases/latest" | jq -r '.assets[] | select(.name=="webui.zip") | .browser_download_url' ) && \
-    curl -LO "$URL"
+    chown -R utorrent:utorrent /utorrent
 
 ADD entrypoint.sh /utorrent/entrypoint.sh
 ADD utserver.conf /utorrent/utserver.conf
