@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     addgroup --gid 1001 utorrent && \
     adduser --uid 1001 --ingroup utorrent --home /utorrent --shell /bin/bash --disabled-password --gecos "" utorrent && \
     apt-get update && \
-    apt-get install -y locales curl && \
+    apt-get install -y locales curl jq && \
     locale-gen en_US.UTF-8 && \
     locale && \
     curl -SL http://download.ap.bittorrent.com/track/beta/endpoint/utserver/os/linux-x64-ubuntu-13-04 | \
@@ -23,11 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     mkdir /utorrent/data && \
     touch /utorrent/utserver.log && \
     ln -sf /dev/stdout /utorrent/utserver.log && \
-    chown -R utorrent:utorrent /utorrent
+    chown -R utorrent:utorrent /utorrent && \
+    cd /utorrent/ && \
+    URL=$( curl -s "https://api.github.com/repos/psychowood/ng-torrent-ui/releases/latest" | jq -r '.assets[] | select(.name=="webui.zip") | .browser_download_url' ) && \
+    curl -LO "$URL"
 
 ADD entrypoint.sh /utorrent/entrypoint.sh
 ADD utserver.conf /utorrent/utserver.conf
-ADD webui.zip /utorrent/webui.zip
 
 RUN chmod 755 /utorrent/webui.zip
 
